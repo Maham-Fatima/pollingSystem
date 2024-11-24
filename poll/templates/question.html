@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Page</title>
+    <style>
+        /* Reset and Base Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            width: 60%;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        fieldset {
+            border: none;
+            padding: 0;
+        }
+
+        legend {
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"], input[type="password"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 1rem 0;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        label {
+            display: block;
+            margin: 0.5rem 0;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            form {
+                width: 90%;
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <form action="{% url 'vote' question.id%}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend><h1>{{ question.question_text }}</h1></legend>
+            {% if error_message %}
+                <p class="error-message">{{ error_message }}</p>
+            {% endif %}
+            <input type="text" name="name" placeholder="Enter name">
+            <input type="password" name="password" placeholder="Enter password">
+            {% for choice in question.choice_set.all %}
+                <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+            {% endfor %}
+        </fieldset>
+        <input type="submit" value="Vote">
+    </form>
+
+</body>
+</html>

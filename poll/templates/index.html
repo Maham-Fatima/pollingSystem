@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polling</title>
+    <style>
+        /* Reset and Base Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            color: #007bff;
+            margin: 1.5rem 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin: 1rem 0;
+        }
+
+        a {
+            display: block;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #333;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+            font-weight: bold;
+        }
+
+        a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            a {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if latest_question_list %}
+        <h1>Polling</h1>
+        <ul>
+            {% for question in latest_question_list %}
+            <li><a href="{% url 'vote' question.id %}">{{ question.question_text }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No polls are available.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
